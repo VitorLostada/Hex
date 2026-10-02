@@ -21,6 +21,10 @@
 	</dict>
 	<key>NSInputMonitoringUsageDescription</key>
 	<string>Hex needs Input Monitoring permission so your global hotkey works in every app.</string>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUFeedURL</key>
