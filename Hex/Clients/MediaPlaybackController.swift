@@ -75,14 +75,15 @@ final class MediaPlaybackController {
       mediaLogger.notice("Resuming players: \(players.joined(separator: ", "))")
       await resumeScriptablePlayers(players)
     case .mediaRemote, .mediaKey:
-      // The user may have started playback again mid-recording; a play command or a
-      // play/pause toggle would then do the wrong thing.
-      if await NowPlaying.isPlaying() == true {
-        mediaLogger.notice("Media is already playing; skipping resume")
-        return
-      }
+      // Play is a no-op when media is already playing, so it goes out without first checking
+      // state; that check would add a perl launch to the delay before music returns.
       if outcome == .mediaRemote, MediaRemote.send(.play) {
         mediaLogger.notice("Resumed media via MediaRemote")
+        return
+      }
+      // The media key toggles instead, which would pause media the user restarted mid-recording.
+      if await NowPlaying.isPlaying() == true {
+        mediaLogger.notice("Media is already playing; skipping resume")
         return
       }
       await MainActor.run { sendMediaKey() }
