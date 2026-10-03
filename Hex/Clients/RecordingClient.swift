@@ -1083,9 +1083,6 @@ actor RecordingClientLive {
   }
 
   func stopRecording() async -> RecordingStopResult {
-    // Bring media back as soon as the hotkey is released rather than after the capture grace
-    // period below. On speakers, the first moments of playback can reach the recording's tail.
-    await resumeMediaIfNeeded()
     let stopSessionID = recordingSessionID
     let activeSession = activeRecordingSession
 
