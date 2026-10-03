@@ -14,7 +14,10 @@ private let mediaLogger = HexLog.media
 /// Pauses and resumes run one at a time, in the order they were requested. A quick
 /// stop-then-start therefore can't resume media after the next recording paused it, and a stop
 /// that arrives while a pause is still in flight waits for it and undoes exactly what it did.
-actor MediaPlaybackController {
+///
+/// Queuing is synchronous so the caller can record the pending pause without suspending; the
+/// owner (`RecordingClientLive`, an actor) provides the isolation.
+final class MediaPlaybackController {
   /// What a pause actually did, so the matching resume can undo exactly that.
   enum PauseOutcome: Sendable, Equatable {
     case nothingPaused

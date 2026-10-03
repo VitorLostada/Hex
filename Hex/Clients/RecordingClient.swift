@@ -987,6 +987,12 @@ actor RecordingClientLive {
   }
 
   func startRecording() async {
+    // A stop that lands before this start reaches the actor cancels it. Starting anyway would
+    // pause media and open a session that no stop is left to end.
+    guard !Task.isCancelled else {
+      recordingLogger.notice("Skipping recording start cancelled before it began")
+      return
+    }
     let sessionID = UUID()
     recordingSessionID = sessionID
     // A pending environment-change debounce is superseded: the start path below applies
@@ -1003,7 +1009,7 @@ actor RecordingClientLive {
       // Runs in the background so recording starts immediately. A pause still pending from
       // a recording that never stopped already covers this one.
       if mediaPause == nil {
-        mediaPause = await mediaPlayback.pause()
+        mediaPause = mediaPlayback.pause()
       }
 
     case .mute:
@@ -1199,7 +1205,7 @@ actor RecordingClientLive {
       await restoreSystemVolume(volume)
     }
     if let pause {
-      await mediaPlayback.resume(after: pause)
+      mediaPlayback.resume(after: pause)
     }
   }
 
