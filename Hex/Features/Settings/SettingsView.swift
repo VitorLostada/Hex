@@ -12,14 +12,6 @@ struct SettingsView: View {
   
 	var body: some View {
 		Form {
-			if RustBetaAnnouncement.isAvailable && !store.hexSettings.hasDismissedRustBetaBanner {
-				Section {
-					RustBetaBannerView {
-						store.send(.dismissRustBetaBanner)
-					}
-				}
-			}
-
 			if microphonePermission != .granted
 				|| accessibilityPermission != .granted
 				|| inputMonitoringPermission != .granted {

@@ -40,15 +40,6 @@ final class HexSettingsMigrationTests: XCTestCase {
 		XCTAssertTrue(HexSettings().superFastModeEnabled)
 	}
 
-	func testRustBetaBannerDismissalDefaultsToVisibleAndPersists() throws {
-		var settings = try JSONDecoder().decode(HexSettings.self, from: Data("{}".utf8))
-		XCTAssertFalse(settings.hasDismissedRustBetaBanner)
-		settings.hasDismissedRustBetaBanner = true
-		let decoded = try JSONDecoder().decode(HexSettings.self, from: JSONEncoder().encode(settings))
-		XCTAssertTrue(decoded.hasDismissedRustBetaBanner)
-		XCTAssertEqual(decoded, settings)
-	}
-
 	func testInitNormalizesDoubleTapOnlyWhenLockDisabled() {
 		let settings = HexSettings(useDoubleTapOnly: true, doubleTapLockEnabled: false)
 

@@ -66,7 +66,6 @@ struct SettingsFeature {
 
     // Existing
     case task
-    case dismissRustBetaBanner
     case startSettingHotKey
     case startSettingPasteLastTranscriptHotkey
     case clearPasteLastTranscriptHotkey
@@ -223,10 +222,6 @@ struct SettingsFeature {
 
     Reduce { state, action in
       switch action {
-      case .dismissRustBetaBanner:
-        state.$hexSettings.withLock { $0.hasDismissedRustBetaBanner = true }
-        return .none
-
       case .binding:
         let didNormalizeDoubleTapOnly = !state.hexSettings.doubleTapLockEnabled && state.hexSettings.useDoubleTapOnly
         if didNormalizeDoubleTapOnly {

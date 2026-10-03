@@ -40,14 +40,6 @@ struct AboutView: View {
                     Spacer()
                     Link("Visit our GitHub", destination: URL(string: "https://github.com/kitlangton/Hex/")!)
                 }
-
-                if RustBetaAnnouncement.isAvailable {
-                    HStack {
-                        Label("New Rust beta", systemImage: "hexagon")
-                        Spacer()
-                        Link("Try the beta", destination: RustBetaAnnouncement.downloadURL)
-                    }
-                }
                 
                 HStack {
                     Label("Support the developer", systemImage: "heart")
